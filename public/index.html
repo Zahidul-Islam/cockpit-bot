@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+     <meta charset="UTF-8" />
+  <title>Cockpit - a simple concierge service bot</title>
+  <link href="https://unpkg.com/botframework-webchat/botchat.css" rel="stylesheet" />
+        <style>
+            .wc-chatview-panel {
+                width: 320px;
+                height: 500px;
+                position: relative;
+            }
+        </style>
+</head>
+<body>
+ <div>
+            <div id="BotChatGoesHere"/>
+        </div>
+
+        <script src="https://unpkg.com/botframework-webchat/botchat.js"></script>
+        <script>
+            BotChat.App({
+                directLine: {
+                    token: "x2F3f75M5xY.cwA.mxQ._5Zcn2ljwSvngg4lq2gsf6e1C_WS7gilfM2mZsiK56M"
+                },
+                user: { id: 'johndoe' },
+                bot: { id: 'yourbot' },
+            }, document.getElementById("BotChatGoesHere"));
+        </script>
+
+</body>
+</html>

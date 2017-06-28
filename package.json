@@ -1,0 +1,19 @@
+{
+  "name": "cockpit",
+  "version": "1.0.0",
+  "description": "Cockpit is a very simple concierge service bot",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "botbuilder": "^3.8.4",
+    "express": "^4.15.3"
+  },
+  "engines": {
+    "node": "8.0.0"
+  }
+}
