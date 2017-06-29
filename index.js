@@ -68,11 +68,13 @@ bot.dialog('adviceBookingDialog', [
 
 bot.dialog('flightBookingDialog', [
     (session) => {
+        session.sendTyping();
         builder.Prompts.text(session, 'Pleaes type IATA code of the city to which you want to go. For example: NYC');
     },
     (session, results, next) => {
         if (results.response) {
             session.dialogData.destination = results.response;
+            session.sendTyping();
             builder.Prompts.text(session, 'Where are you flying from? For example: SFO');
         } else {
             next();
@@ -83,6 +85,7 @@ bot.dialog('flightBookingDialog', [
             session.dialogData.origin = results.response;
         }
         if (session.dialogData.origin && session.dialogData.destination) {
+            session.sendTyping();
             let flightInspirationSearchUrl = `${amadeusBaseURL}flights/extensive-search?apikey=${amadeusAPIKey}&origin=${session.dialogData.origin}&destination=${session.dialogData.destination}&duration=2--3`;
             rp(flightInspirationSearchUrl)
                 .then(res => {
@@ -91,7 +94,7 @@ bot.dialog('flightBookingDialog', [
                     let cards = [];
                     var msg = new builder.Message(session);
                     msg.attachmentLayout(builder.AttachmentLayout.carousel)
-                    
+                    session.sendTyping();
                     results.forEach((result, index) => {
                         if(index < 10){
                             cards.push(buildCard(session, result, response.origin)); 
