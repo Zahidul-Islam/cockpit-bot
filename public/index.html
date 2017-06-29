@@ -1,32 +1,31 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-     <meta charset="UTF-8" />
-  <title>Cockpit - a simple concierge service bot</title>
-  <link href="https://unpkg.com/botframework-webchat/botchat.css" rel="stylesheet" />
-        <style>
-            .wc-chatview-panel {
-                width: 320px;
-                height: 500px;
-                position: relative;
-            }
-        </style>
+    <meta charset="UTF-8" />
+    <title>Cockpit - a simple concierge service bot</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.99.0/css/materialize.min.css">
+    <link href="https://unpkg.com/botframework-webchat/botchat.css" rel="stylesheet" />
+    <style>
+        .wc-chatview-panel {
+            width: 100%;
+            margin: 0 auto;
+        }
+    </style>
 </head>
+
 <body>
- <div>
-            <div id="BotChatGoesHere"/>
+    <div class="container">
+        <a class="row waves-effect waves-light btn">button</a>
+        <div class="row">
+            <div id="BotChatGoesHere" />
         </div>
-
-        <script src="https://unpkg.com/botframework-webchat/botchat.js"></script>
-        <script>
-            BotChat.App({
-                directLine: {
-                    token: "x2F3f75M5xY.cwA.mxQ._5Zcn2ljwSvngg4lq2gsf6e1C_WS7gilfM2mZsiK56M"
-                },
-                user: { id: 'johndoe' },
-                bot: { id: 'yourbot' },
-            }, document.getElementById("BotChatGoesHere"));
-        </script>
-
+    </div>
+    <script src="https://unpkg.com/botframework-webchat/botchat.js"></script>
+    <script src="./app.js"></script>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.99.0/js/materialize.min.js"></script>
 </body>
+
 </html>
