@@ -7,19 +7,16 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.99.0/css/materialize.min.css">
     <link href="https://unpkg.com/botframework-webchat/botchat.css" rel="stylesheet" />
-    <style>
-        .wc-chatview-panel {
-            width: 100%;
-            margin: 0 auto;
-        }
-    </style>
+    <link rel="stylesheet" href="./style.css">
 </head>
 
 <body>
     <div class="container">
-        <a class="row waves-effect waves-light btn">button</a>
         <div class="row">
-            <div id="BotChatGoesHere" />
+            <div class="col s3">
+                side nav
+            </div>
+            <div class="col c9" id="cockpitBot"></div>
         </div>
     </div>
     <script src="https://unpkg.com/botframework-webchat/botchat.js"></script>

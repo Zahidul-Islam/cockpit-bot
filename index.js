@@ -22,27 +22,23 @@ app.post('/api/messages', connector.listen());
 
 let bot = new builder.UniversalBot(connector, [
     (session) => {
-        session.send('Welcome to Cockpit Bot.');
-        session.sendTyping();
-        builder.Prompts.choice(session,
-            'Hi there! I\'m here to help you to find the best and affortable flight and hotels.Please choose one of the option to search:',
-            ['Advice', 'Flight', 'Hotes', 'Concierge'],
-            builder.ListStyle.button);
+        const msg = buildChoiceCard(session);
+        builder.Prompts.choice(session, msg, 'advice|flight|hotes|concierge');
     },
     (session, results) => {
         console.log(session.response);
         const choice = results.response.entity;
         switch (choice) {
-            case 'Advice':
+            case 'advice':
                 session.beginDialog('adviceBookingDialog');
                 break;
-            case 'Flight':
+            case 'flight':
                 session.beginDialog('flightBookingDialog');
                 break;
-            case 'Hotes':
+            case 'hotes':
                 session.beginDialog('hotelBookingDialog');
                 break;
-            case 'Concierge':
+            case 'concierge':
                 session.beginDialog('conciergeDialog');
                 break;
             default:
@@ -52,17 +48,17 @@ let bot = new builder.UniversalBot(connector, [
     (session, results) => {
         if (results.response) {
             const data = results.response;
-            session.send(`You\'re flying from ${data.origin} and going to ${data.destination}. Have a nice and safe journey!`);
-            session.endConversation();
+            session.send(`You\'re flying from ${data.origin} and going to ${data.destination}. Here are some choices.`);
+            session.sendTyping();
         } else {
-            session.endDialog('We will comeback to you as soon as we have this feature. Thank you!');
+            session.endConversation('We will comeback to you as soon as we have this feature. Thank you!');
         }
     }
 ]);
 
 bot.dialog('adviceBookingDialog', [
     (session) => {
-        session.endDialog('Sorry we don\'t support booking advice yet!');
+        session.endConversation('Sorry we don\'t support booking advice yet!');
     }
 ]);
 
@@ -137,6 +133,15 @@ bot.dialog('unknownDialog', [
         session.endDialog('Sorry I didn\'t get it! Would you like to perform another search?');
     }
 ]);
+
+// bot.dialog('help', (session, args, next) => {
+//     session.endDialog('This is a simple bot that help you find best and affortable flight, hotels or concierge service.');
+// }).triggerAction({
+//     matches: /^help$/,
+//     onSelectAction: (session, args, next) => {
+//         session.beginDialog(args.action, args);
+//     }
+// });
 
 app.listen(port, () => console.log('Bot is listening on port: ' + port));
 
@@ -304,4 +309,23 @@ function buildACard(session, result, origin) {
                 ]
             }
         });
+}
+
+function buildChoiceCard(session) {
+    const choiceCard = new builder.Message(session);
+    choiceCard.attachmentLayout(builder.AttachmentLayout.carousel)
+    choiceCard.attachments([
+        new builder.HeroCard(session)
+            .title("Welcome to Cockpit Bot")
+            .subtitle("Hi there!")
+            .text("I'm here to help you find the best and affortable flight, hotels or concierge service.Please choose one of the option to start")
+            .images([builder.CardImage.create(session, 'http://cockpit.herokuapp.com/images/cockpitbot.png')])
+            .buttons([
+                builder.CardAction.imBack(session, "advice", "Travel Advice"),
+                builder.CardAction.imBack(session, "flight", "Search Flight"),
+                builder.CardAction.imBack(session, "hotels", "Search Hotels"),
+                builder.CardAction.imBack(session, "concierge", "Concierge Service")
+            ])
+    ]);
+    return choiceCard;
 }
