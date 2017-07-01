@@ -5,22 +5,20 @@ const rp = require('request-promise');
 const app = express();
 
 const port = process.env.PORT || 3978;
-const public = __dirname + "/public/";
+
 const amadeusAPIKey = 'T5ANeTGYtcD4cMOAGnGaSHo84VZz5phw';
 const amadeusBaseURL = 'https://api.sandbox.amadeus.com/v1.2/';
-
-app.use('/', express.static(public));
 
 const connector = new builder.ChatConnector({
     appId: '85021f43-ab03-4916-908e-c113dbf0d195',
     appPassword: '4AVKb6sHChCXQFfbNrGfCBP'
 });
 
+app.use('/webchat', express.static('public'));
 
-app.get('/', (req, res) => res.sendFile(path.join(public + "index.html")));
 app.post('/api/messages', connector.listen());
 
-let bot = new builder.UniversalBot(connector, [
+const bot = new builder.UniversalBot(connector, [
     (session) => {
         const msg = buildChoiceCard(session);
         builder.Prompts.choice(session, msg, 'advice|flight|hotes|concierge');
@@ -30,16 +28,13 @@ let bot = new builder.UniversalBot(connector, [
         const choice = results.response.entity;
         switch (choice) {
             case 'advice':
-                session.beginDialog('adviceBookingDialog');
+                session.beginDialog('inspirationDialog');
                 break;
             case 'flight':
                 session.beginDialog('flightBookingDialog');
                 break;
             case 'hotes':
                 session.beginDialog('hotelBookingDialog');
-                break;
-            case 'concierge':
-                session.beginDialog('conciergeDialog');
                 break;
             default:
                 session.beginDialog('unknownDialog');
@@ -56,7 +51,7 @@ let bot = new builder.UniversalBot(connector, [
     }
 ]);
 
-bot.dialog('adviceBookingDialog', [
+bot.dialog('inspirationDialog', [
     (session) => {
         session.endConversation('Sorry we don\'t support booking advice yet!');
     }
@@ -121,13 +116,6 @@ bot.dialog('hotelBookingDialog', [
     }
 ]);
 
-bot.dialog('conciergeDialog', [
-    (session) => {
-        session.endDialog('Sorry we don\'t support concierge service yet!');
-    }
-
-]);
-
 bot.dialog('unknownDialog', [
     (session) => {
         session.endDialog('Sorry I didn\'t get it! Would you like to perform another search?');
@@ -143,7 +131,7 @@ bot.dialog('unknownDialog', [
 //     }
 // });
 
-app.listen(port, () => console.log('Bot is listening on port: ' + port));
+app.listen(port, () => console.log('Bot is listening to  ' + port));
 
 function buildCard(session, result, origin) {
     return new builder.HeroCard(session)
@@ -317,14 +305,13 @@ function buildChoiceCard(session) {
     choiceCard.attachments([
         new builder.HeroCard(session)
             .title("Welcome to Cockpit Bot")
-            .subtitle("Hi there!")
-            .text("I'm here to help you find the best and affortable flight, hotels or concierge service.Please choose one of the option to start")
+            .subtitle("Hi there! I'm here to help you plan your next vacation.")
+            .text("Let's get started. Please choose one of the option: ")
             .images([builder.CardImage.create(session, 'http://cockpit.herokuapp.com/images/cockpitbot.png')])
             .buttons([
-                builder.CardAction.imBack(session, "advice", "Travel Advice"),
-                builder.CardAction.imBack(session, "flight", "Search Flight"),
-                builder.CardAction.imBack(session, "hotels", "Search Hotels"),
-                builder.CardAction.imBack(session, "concierge", "Concierge Service")
+                builder.CardAction.imBack(session, "inspiration", "Inspiration"),
+                builder.CardAction.imBack(session, "flight", "Flight Search"),
+                builder.CardAction.imBack(session, "hotels", "Hotels Search")
             ])
     ]);
     return choiceCard;

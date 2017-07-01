@@ -1,7 +1,38 @@
- BotChat.App({
-            directLine: {
-                token: "x2F3f75M5xY.cwA.mxQ._5Zcn2ljwSvngg4lq2gsf6e1C_WS7gilfM2mZsiK56M"
-            },
-            user: { id: 'zahidul islam' },
-            bot: { id: 'cockpit' },
-        }, document.getElementById("cockpitBot"));
+let params = {};
+location
+    .search
+    .substring(1)
+    .split("&")
+    .forEach(pair => {
+        const p = pair.split('=');
+        params[p[0]] = decodeURIComponent(p[1]);
+    });
+
+const botConnection = new BotChat.DirectLine({
+    token: params['key']
+});
+
+const bot = {
+    id: params['botid'] || 'botid',
+    name: params['botname'] || 'botname'
+};
+
+const loginForm = document.getElementById('loginForm');
+const loginDetail = document.getElementById('loginDetail');
+const userId = document.getElementById('userId');
+
+loginForm.onsubmit = (e) => {
+    e.preventDefault();
+    loginDetail.style.display = 'none';
+
+    const user = {
+        id: userId.value,
+        name: userId.value
+    }
+
+    BotChat.App({
+        botConnection,
+        user,
+        bot
+    }, document.getElementById('BotChatGoesHere'));
+}
