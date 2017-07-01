@@ -126,15 +126,6 @@ bot.dialog('unknownDialog', [
     }
 ]);
 
-// bot.dialog('help', (session, args, next) => {
-//     session.endDialog('This is a simple bot that help you find best and affortable flight, hotels or concierge service.');
-// }).triggerAction({
-//     matches: /^help$/,
-//     onSelectAction: (session, args, next) => {
-//         session.beginDialog(args.action, args);
-//     }
-// });
-
 app.listen(port, () => console.log('Bot is listening to  ' + port));
 
 function buildCard(session, result, origin) {
