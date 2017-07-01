@@ -4,7 +4,7 @@ const builder = require('botbuilder');
 const rp = require('request-promise');
 const app = express();
 
-require('dotenv').config();
+if(process.env.NODE_ENV !== 'production') require('dotenv').config();
 
 const port = process.env.PORT || 3978;
 
