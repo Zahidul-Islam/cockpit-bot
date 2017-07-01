@@ -4,16 +4,20 @@ const builder = require('botbuilder');
 const rp = require('request-promise');
 const app = express();
 
+require('dotenv').config();
+
 const port = process.env.PORT || 3978;
 
-const amadeusAPIKey = 'T5ANeTGYtcD4cMOAGnGaSHo84VZz5phw';
-const amadeusBaseURL = 'https://api.sandbox.amadeus.com/v1.2/';
+const amadeusAPIKey = process.env.AmadeusAPIKey;
+const amadeusBaseURL = process.env.AmadeusBaseURL;
+const appBaseUrl = process.env.AppBaseUrl;
 
 const connector = new builder.ChatConnector({
-    appId: '85021f43-ab03-4916-908e-c113dbf0d195',
-    appPassword: '4AVKb6sHChCXQFfbNrGfCBP'
+    appId: process.env.AppId,
+    appPassword: process.env.AppPassword
 });
 
+app.use(express.static(path.join(__dirname, 'public')));
 app.use('/webchat', express.static('public'));
 
 app.post('/api/messages', connector.listen());
@@ -307,7 +311,7 @@ function buildChoiceCard(session) {
             .title("Welcome to Cockpit Bot")
             .subtitle("Hi there! I'm here to help you plan your next vacation.")
             .text("Let's get started. Please choose one of the option: ")
-            .images([builder.CardImage.create(session, 'http://cockpit.herokuapp.com/images/cockpitbot.png')])
+            .images([builder.CardImage.create(session, appBaseUrl + '/images/cockpitbot.png')])
             .buttons([
                 builder.CardAction.imBack(session, "inspiration", "Inspiration"),
                 builder.CardAction.imBack(session, "flight", "Flight Search"),
