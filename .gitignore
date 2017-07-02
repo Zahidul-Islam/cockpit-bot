@@ -38,3 +38,5 @@ typings/
 
 # Output of 'npm pack'
 *.tgz
+
+.DS_Store
