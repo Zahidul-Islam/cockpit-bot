@@ -17,14 +17,19 @@ module.exports = function(session, origin, results) {
 }
 
 function flightItem(session, origin, item) {
+
     return new builder.HeroCard(session)
         .title(`$ ${item.price}`)
         .subtitle(`${origin} to ${item.destination}`)
         .text(`${moment(item.departure_date).format('ddd, MMM d')} - ${moment(item.return_date).format('ddd, MMM d')}`)
-        .images([builder.CardImage.create(session, 'http://via.placeholder.com/350x200')])
+        .images([builder.CardImage.create(session, `https://unsplash.it/350/200?image=${generateRandomId(10, 50)}`)]) //http://via.placeholder.com/350x200
         .buttons([
             builder.CardAction.imBack(session, 'Show Itinerary', 'Show Itinerary'),
             builder.CardAction.imBack(session, 'Show Hotel Options', 'Show Hotel Options'),
             builder.CardAction.imBack(session, 'Show Point of Interest', 'Show Point of Interest')
         ]);
+}
+
+function generateRandomId(min, max) {
+    return Math.floor(Math.random() * (max - min) + min);
 }
