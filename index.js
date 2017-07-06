@@ -67,9 +67,13 @@ bot.dialog('unknownDialog', [
 
 bot.dialog('help', [
     (session, args, next) => {
-        session.send(`Let's start again!`);
-        const msg = menuCard.build(session, AppBaseUrl);
-        builder.Prompts.choice(session, msg, 'inspiration|flight|hotes|concierge');
+        const card = new builder.ThumbnailCard(session)
+                                .title('Help!')
+                                .text("I can answer you questions like:\n"
+                                    + "1. What are the places I can go from San Francisco within $100? \n"
+                                    + "2. Find me best price for Auckland to San Francisco? \n You can start over search by saying 'hi'");
+        const message = new builder.Message(session).addAttachment(card);
+        session.endConversation(message);
     },
 ]).triggerAction({ matches: /^help$/i });
 

@@ -12,7 +12,7 @@ module.exports = function(session, appBaseUrl) {
             .buttons([
                 builder.CardAction.imBack(session, 'Explore Destinations', 'Explore Destinations'),
                 builder.CardAction.imBack(session, 'Search Flights', 'Search Flights'),
-                builder.CardAction.imBack(session, 'Search Hotels', 'Search Hotels')
+                builder.CardAction.imBack(session, 'Help', 'Help')
             ])
     ]);
     return message;

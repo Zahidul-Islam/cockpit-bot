@@ -15,6 +15,7 @@
     "express": "^4.15.3",
     "lodash": "4.17.4",
     "moment": "2.18.1",
+    "mongodb": "2.2.29",
     "request": "2.81.0",
     "request-promise": "4.2.1"
   },
