@@ -20,16 +20,21 @@ module.exports = function (bot) {
                         .find({ $text: { $search: results.response } }, { score: { $meta: 'textScore' } })
                         .sort({ score: { $meta: 'textScore' } })
                         .toArray((err, result) => {
-                           try {
-                                let airportInfo = result[0];
-                                session.dialogData.origin = airportInfo.iata;
-                                session.send(`You're flying from ${airportInfo.city}, ${airportInfo.country}.`);
-                                builder.Prompts.text(session, 'What is your budget for the trip? For example: $500');
-
-                            } catch (err) {
-                                console.log(err);
-                                session.endConversation(`Sorry I can't fine "${results.response}" in my database.`);
+                            if(err) {
+                                session.endConversation('Sorry! No results found :( You can start again by saying "hi"');
                             }
+                            let airportInfo = result[0];
+                            if(airportInfo.iata === '\\N') {
+                                airportInfo = result[1];
+                            }
+                            session.dialogData.origin = airportInfo.iata;
+                            session.send(`You're flying from ${airportInfo.city}, ${airportInfo.country}.`);
+                            builder.Prompts.text(session, 'What is your budget for the trip? For example: $500');
+
+                            // } catch (err) {
+                            //     console.log(err);
+                            //     session.endConversation(`Sorry I can't fine "${results.response}" in my database.`);
+                            // }
 
                         });
                     db.close();
