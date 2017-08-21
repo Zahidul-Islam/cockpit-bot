@@ -8,7 +8,6 @@ module.exports = function(session, appBaseUrl) {
             .title('Welcome to the Cockpit Bot')
             .subtitle('I can help you plan your next gateaway.')
             .text('What would you like to do today?')
-            //.images([builder.CardImage.create(session, appBaseUrl + '/images/cockpitbot.png')])
             .buttons([
                 builder.CardAction.imBack(session, 'Explore Destinations', 'Explore Destinations'),
                 builder.CardAction.imBack(session, 'Search Flights', 'Search Flights'),

@@ -1,4 +1,5 @@
 let params = {};
+let KEY = 'cIIEfwv8Df0.cwA.n1g.DpWHaeYt9KjH6-TSQFg7JJNqWlMMWsHtYV7TsZURCXU';
 location
     .search
     .substring(1)
@@ -9,7 +10,7 @@ location
     });
 
 const botConnection = new BotChat.DirectLine({
-    token: params['key']
+    token: params['key'] || KEY
 });
 
 const bot = {
