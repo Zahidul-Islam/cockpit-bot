@@ -16,7 +16,7 @@ npm install
 
 ## Update environment variables
 
-Rename `.env.tempalte` file to `.env` using `mv .env.template .env`
+Rename `.env.template` file to `.env` using `mv .env.template .env`
 
 Update properties in **.env** file
 ```
